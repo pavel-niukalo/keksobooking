@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Павел Нюкало](https://up.htmlacademy.ru/javascript/19/user/869225).
-* Наставник: [Дмитрий Рябинин](https://htmlacademy.ru/profile/haschish).
+* Наставник: [Дмитрий Рябинин](https://up.htmlacademy.ru/javascript/19/user/63289).
 
 ---
 
