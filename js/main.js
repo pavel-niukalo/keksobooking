@@ -9,7 +9,7 @@ var NUMBER_OF_GUESTS = [0, 1, 2];
 var CHECKIN = ['12:00', '13:00', '14:00'];
 var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES_FLAT = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var PHOTOS_FLAT = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
+var PHOTOS_FLAT = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var LOCATION_Y_SHIFT = 70;
 var LOCATION_X_SHIFT = 25;
 
@@ -29,7 +29,7 @@ var getRandomItem = function (arr) {
 // Случайное число
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 // Случайная длина массива
 var getRandomLength = function (arr) {
@@ -56,7 +56,7 @@ var generateData = function (num) {
         title: TITLES_AD[i],
         adress: '600, 350',
         price: getRandomItem(PRICE_FLAT),
-        type: getRandomItem(PRICE_FLAT),
+        type: getRandomItem(TYPE_FLAT),
         rooms: getRandomItem(ROOMS_FLAT),
         guests: getRandomItem(NUMBER_OF_GUESTS),
         checkin: getRandomItem(CHECKIN),
