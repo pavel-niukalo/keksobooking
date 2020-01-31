@@ -113,38 +113,36 @@ var TYPE_FLAT_TRANSLATE = {
   house: 'Дом',
   palace: 'Дворец'
 };
-var IMAGE_WIDTH = 45;
-var IMAGE_HEIGHT = 40;
-var IMAGE_ALT = 'Фотография жилья';
 
 var cardTemplate = document.querySelector('#card')
 .content
 .querySelector('.map__card');
+var imgTemplate = document.querySelector('#card')
+.content
+.querySelector('.popup__photo');
 
 var mapFilters = map.querySelector('.map__filters-container');
 
-// Создание списка удобств
-var generateFeatures = function (element, array) {
-  element.querySelector('.popup__features').innerHTML = '';
+// Вставка списка удобств
+var insertFeatures = function (element, array) {
+  element.innerHTML = '';
+
   for (var i = 0; i < array.length; i++) {
     var featureItem = document.createElement('li');
     featureItem.classList.add('popup__feature');
     featureItem.classList.add('popup__feature--' + array[i]);
-    element.querySelector('.popup__features').appendChild(featureItem);
+    element.appendChild(featureItem);
   }
 };
 
-// Создание списка фотографий
-var generatePhotos = function (element, array) {
-  element.querySelector('.popup__photos').innerHTML = '';
+// Вставка фотографий
+var insertPhotos = function (element, array) {
+  element.innerHTML = '';
+
   for (var j = 0; j < array.length; j++) {
-    var adPhoto = document.createElement('img');
-    adPhoto.classList.add('popup__photo');
+    var adPhoto = imgTemplate.cloneNode(true);
     adPhoto.src = array[j];
-    adPhoto.width = IMAGE_WIDTH;
-    adPhoto.height = IMAGE_HEIGHT;
-    adPhoto.alt = IMAGE_ALT;
-    element.querySelector('.popup__photos').appendChild(adPhoto);
+    element.appendChild(adPhoto);
   }
 };
 
@@ -158,16 +156,16 @@ var renderCard = function (card) {
   cardElement.querySelector('.popup__type').textContent = TYPE_FLAT_TRANSLATE[card.offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
-  generateFeatures(cardElement, card.offer.features);
+  insertFeatures(cardElement.querySelector('.popup__features'), card.offer.features);
   cardElement.querySelector('.popup__description').textContent = card.offer.description;
-  generatePhotos(cardElement, card.offer.photos);
+  insertPhotos(cardElement.querySelector('.popup__photos'), card.offer.photos);
   cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
   return cardElement;
 };
 
-var renderCards = function (adsAmount) {
-  mapFilters.insertAdjacentElement('beforebegin', renderCard(adsAmount));
+var showCard = function (ad) {
+  mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
 };
 
-renderCards(data[0]);
+showCard(data[0]);
