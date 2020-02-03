@@ -101,71 +101,173 @@ var renderAds = function (array) {
 };
 
 var data = generateData(NUMBER_OF_ADS);
-renderAds(data);
 
-map.classList.remove('map--faded');
+// Задание №1 4-го раздела
+var ENTER_KEY = 'Enter';
+var LEFT_MOUSE_BUTTON = 1;
+var PIN_WIDTH = 65;
+var PIN_HEIGHT = 65;
+var PIN_TAIL = 22;
+
+var mapPinMain = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var adFormFieldset = adForm.querySelectorAll('fieldset');
+var filtersFormFieldset = document.querySelectorAll('.map__filters fieldset');
+var filtersFormSelect = document.querySelectorAll('.map__filters select');
+var adressInput = adForm.querySelector('input[name="address"]');
+var numberRooms = adForm.querySelector('select[name=rooms]');
+var numberGuests = adForm.querySelector('select[name=capacity]');
+
+// Добавление disabled форме размещения объявления
+for (var i = 0; i < adFormFieldset.length; i++) {
+  adFormFieldset[i].setAttribute('disabled', 'disabled');
+}
+
+// Добавление disabled форме сортировки
+for (var j = 0; j < filtersFormFieldset.length; j++) {
+  filtersFormFieldset[j].setAttribute('disabled', 'disabled');
+}
+for (var k = 0; k < filtersFormSelect.length; k++) {
+  filtersFormSelect[k].setAttribute('disabled', 'disabled');
+}
+
+// Перевод в активное состояние
+var enableActiveState = function () {
+  adForm.classList.remove('ad-form--disabled');
+
+  for (var l = 0; l < adFormFieldset.length; l++) {
+    adFormFieldset[l].removeAttribute('disabled', 'disabled');
+  }
+
+  for (var m = 0; m < filtersFormFieldset.length; m++) {
+    filtersFormFieldset[m].removeAttribute('disabled', 'disabled');
+  }
+
+  for (var n = 0; n < filtersFormSelect.length; n++) {
+    filtersFormSelect[n].removeAttribute('disabled', 'disabled');
+  }
+
+  renderAds(data);
+  map.classList.remove('map--faded');
+};
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.which === LEFT_MOUSE_BUTTON) {
+    enableActiveState();
+    adressInput.value = getCoordinatesMainPin();
+  }
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    enableActiveState();
+    adressInput.value = getCoordinatesMainPin();
+  }
+});
+
+// Заполнение поля адреса
+var getCoordinatesMainPin = function () {
+  var coordinateMapPins = mapPins.getBoundingClientRect();
+  var coordinatePinMain = mapPinMain.getBoundingClientRect();
+  var pinX = Math.round((coordinatePinMain.left + PIN_WIDTH / 2) - coordinateMapPins.left);
+  var pinY = Math.round((coordinatePinMain.top + PIN_HEIGHT / 2) + pageYOffset);
+
+  if (!map.classList.contains('map--faded')) {
+    pinY = Math.round((coordinatePinMain.top + PIN_HEIGHT + PIN_TAIL) + pageYOffset);
+  }
+
+  return pinX + ', ' + pinY;
+};
+
+adressInput.value = getCoordinatesMainPin();
+
+// Валидация комнат и гостей
+var checkNumberOfGuestsAndRooms = function () {
+  var roomsValue = Number(numberRooms.value);
+  var guestsValue = Number(numberGuests.value);
+
+  if (roomsValue !== 100 && guestsValue === 0) {
+    numberGuests.setCustomValidity('Недостаточно гостей');
+  } else if (roomsValue < guestsValue) {
+    numberGuests.setCustomValidity('Гостей очень много');
+  } else if (roomsValue === 100 && guestsValue !== 0) {
+    numberGuests.setCustomValidity('Данный вариант не для гостей');
+  } else {
+    numberGuests.setCustomValidity('');
+  }
+};
+
+var formValidation = function () {
+  checkNumberOfGuestsAndRooms();
+  // Здесь будут другие проверки
+};
+
+// Валидация формы
+adForm.addEventListener('input', function () {
+  formValidation();
+});
 
 // Задание №2
+// Закоментировано до 2-го задания 4 раздела
+// var TYPE_FLAT_TRANSLATE = {
+//   flat: 'Квартира',
+//   bungalo: 'Бунгало',
+//   house: 'Дом',
+//   palace: 'Дворец'
+// };
 
-var TYPE_FLAT_TRANSLATE = {
-  flat: 'Квартира',
-  bungalo: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец'
-};
+// var cardTemplate = document.querySelector('#card')
+// .content
+// .querySelector('.map__card');
+// var imgTemplate = document.querySelector('#card')
+// .content
+// .querySelector('.popup__photo');
 
-var cardTemplate = document.querySelector('#card')
-.content
-.querySelector('.map__card');
-var imgTemplate = document.querySelector('#card')
-.content
-.querySelector('.popup__photo');
-
-var mapFilters = map.querySelector('.map__filters-container');
+// var mapFilters = map.querySelector('.map__filters-container');
 
 // Вставка списка удобств
-var insertFeatures = function (element, array) {
-  element.innerHTML = '';
+// var insertFeatures = function (element, array) {
+//   element.innerHTML = '';
 
-  for (var i = 0; i < array.length; i++) {
-    var featureItem = document.createElement('li');
-    featureItem.classList.add('popup__feature');
-    featureItem.classList.add('popup__feature--' + array[i]);
-    element.appendChild(featureItem);
-  }
-};
+//   for (var i = 0; i < array.length; i++) {
+//     var featureItem = document.createElement('li');
+//     featureItem.classList.add('popup__feature');
+//     featureItem.classList.add('popup__feature--' + array[i]);
+//     element.appendChild(featureItem);
+//   }
+// };
 
 // Вставка фотографий
-var insertPhotos = function (element, array) {
-  element.innerHTML = '';
+// var insertPhotos = function (element, array) {
+//   element.innerHTML = '';
 
-  for (var j = 0; j < array.length; j++) {
-    var adPhoto = imgTemplate.cloneNode(true);
-    adPhoto.src = array[j];
-    element.appendChild(adPhoto);
-  }
-};
+//   for (var j = 0; j < array.length; j++) {
+//     var adPhoto = imgTemplate.cloneNode(true);
+//     adPhoto.src = array[j];
+//     element.appendChild(adPhoto);
+//   }
+// };
 
 // Создание 1 объявления
-var renderCard = function (card) {
-  var cardElement = cardTemplate.cloneNode(true);
+// var renderCard = function (card) {
+//   var cardElement = cardTemplate.cloneNode(true);
 
-  cardElement.querySelector('.popup__title').textContent = card.offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
-  cardElement.querySelector('.popup__type').textContent = TYPE_FLAT_TRANSLATE[card.offer.type];
-  cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
-  insertFeatures(cardElement.querySelector('.popup__features'), card.offer.features);
-  cardElement.querySelector('.popup__description').textContent = card.offer.description;
-  insertPhotos(cardElement.querySelector('.popup__photos'), card.offer.photos);
-  cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+//   cardElement.querySelector('.popup__title').textContent = card.offer.title;
+//   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
+//   cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
+//   cardElement.querySelector('.popup__type').textContent = TYPE_FLAT_TRANSLATE[card.offer.type];
+//   cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+//   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+//   insertFeatures(cardElement.querySelector('.popup__features'), card.offer.features);
+//   cardElement.querySelector('.popup__description').textContent = card.offer.description;
+//   insertPhotos(cardElement.querySelector('.popup__photos'), card.offer.photos);
+//   cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
-  return cardElement;
-};
+//   return cardElement;
+// };
 
-var showCard = function (ad) {
-  mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
-};
+// var showCard = function (ad) {
+//   mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
+// };
 
-showCard(data[0]);
+// showCard(data[0]);
