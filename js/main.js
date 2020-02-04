@@ -102,6 +102,74 @@ var renderAds = function (array) {
 
 var data = generateData(NUMBER_OF_ADS);
 
+// Задание №2
+// Закоментировано до 2-го задания 4 раздела
+var TYPE_FLAT_TRANSLATE = {
+  flat: 'Квартира',
+  bungalo: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец'
+};
+
+var cardTemplate = document.querySelector('#card')
+.content
+.querySelector('.map__card');
+var imgTemplate = document.querySelector('#card')
+.content
+.querySelector('.popup__photo');
+
+// Временное решение
+// var mapFilters = map.querySelector('.map__filters-container');
+
+// Вставка списка удобств
+var insertFeatures = function (element, array) {
+  element.innerHTML = '';
+
+  for (var i = 0; i < array.length; i++) {
+    var featureItem = document.createElement('li');
+    featureItem.classList.add('popup__feature');
+    featureItem.classList.add('popup__feature--' + array[i]);
+    element.appendChild(featureItem);
+  }
+};
+
+// Вставка фотографий
+var insertPhotos = function (element, array) {
+  element.innerHTML = '';
+
+  for (var j = 0; j < array.length; j++) {
+    var adPhoto = imgTemplate.cloneNode(true);
+    adPhoto.src = array[j];
+    element.appendChild(adPhoto);
+  }
+};
+
+// Создание 1 объявления
+var renderCard = function (card) {
+  var cardElement = cardTemplate.cloneNode(true);
+
+  cardElement.querySelector('.popup__title').textContent = card.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = TYPE_FLAT_TRANSLATE[card.offer.type];
+  cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+  insertFeatures(cardElement.querySelector('.popup__features'), card.offer.features);
+  cardElement.querySelector('.popup__description').textContent = card.offer.description;
+  insertPhotos(cardElement.querySelector('.popup__photos'), card.offer.photos);
+  cardElement.querySelector('.popup__avatar').src = card.author.avatar;
+
+  return cardElement;
+};
+
+var showCard = function (ad) {
+  // Временное решение
+  return renderCard(ad);
+  // mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
+};
+
+showCard(data[0]);
+
 // Задание №1 4-го раздела
 var ENTER_KEY = 'Enter';
 var LEFT_MOUSE_BUTTON = 1;
@@ -118,34 +186,28 @@ var adressInput = adForm.querySelector('input[name="address"]');
 var numberRooms = adForm.querySelector('select[name=rooms]');
 var numberGuests = adForm.querySelector('select[name=capacity]');
 
-// Добавление disabled форме размещения объявления
-for (var i = 0; i < adFormFieldset.length; i++) {
-  adFormFieldset[i].setAttribute('disabled', 'disabled');
-}
+// Добавление disabled
+var setDisabled = function (collection, value) {
+  for (var i = 0; i < collection.length; i++) {
+    if (value) {
+      collection[i].setAttribute('disabled', 'disabled');
+    } else {
+      collection[i].removeAttribute('disabled', 'disabled');
+    }
+  }
+};
 
-// Добавление disabled форме сортировки
-for (var j = 0; j < filtersFormFieldset.length; j++) {
-  filtersFormFieldset[j].setAttribute('disabled', 'disabled');
-}
-for (var k = 0; k < filtersFormSelect.length; k++) {
-  filtersFormSelect[k].setAttribute('disabled', 'disabled');
-}
+setDisabled(adFormFieldset, true);
+setDisabled(filtersFormFieldset, true);
+setDisabled(filtersFormSelect, true);
 
 // Перевод в активное состояние
 var enableActiveState = function () {
   adForm.classList.remove('ad-form--disabled');
 
-  for (var l = 0; l < adFormFieldset.length; l++) {
-    adFormFieldset[l].removeAttribute('disabled', 'disabled');
-  }
-
-  for (var m = 0; m < filtersFormFieldset.length; m++) {
-    filtersFormFieldset[m].removeAttribute('disabled', 'disabled');
-  }
-
-  for (var n = 0; n < filtersFormSelect.length; n++) {
-    filtersFormSelect[n].removeAttribute('disabled', 'disabled');
-  }
+  setDisabled(adFormFieldset, false);
+  setDisabled(filtersFormFieldset, false);
+  setDisabled(filtersFormSelect, false);
 
   renderAds(data);
   map.classList.remove('map--faded');
@@ -167,13 +229,11 @@ mapPinMain.addEventListener('keydown', function (evt) {
 
 // Заполнение поля адреса
 var getCoordinatesMainPin = function () {
-  var coordinateMapPins = mapPins.getBoundingClientRect();
-  var coordinatePinMain = mapPinMain.getBoundingClientRect();
-  var pinX = Math.round((coordinatePinMain.left + PIN_WIDTH / 2) - coordinateMapPins.left);
-  var pinY = Math.round((coordinatePinMain.top + PIN_HEIGHT / 2) + pageYOffset);
+  var pinX = Math.round((mapPinMain.offsetLeft + PIN_WIDTH / 2) - mapPins.offsetLeft);
+  var pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT / 2);
 
   if (!map.classList.contains('map--faded')) {
-    pinY = Math.round((coordinatePinMain.top + PIN_HEIGHT + PIN_TAIL) + pageYOffset);
+    pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT + PIN_TAIL);
   }
 
   return pinX + ', ' + pinY;
@@ -183,8 +243,8 @@ adressInput.value = getCoordinatesMainPin();
 
 // Валидация комнат и гостей
 var checkNumberOfGuestsAndRooms = function () {
-  var roomsValue = Number(numberRooms.value);
-  var guestsValue = Number(numberGuests.value);
+  var roomsValue = parseInt(numberRooms.value, 10);
+  var guestsValue = parseInt(numberGuests.value, 10);
 
   if (roomsValue !== 100 && guestsValue === 0) {
     numberGuests.setCustomValidity('Недостаточно гостей');
@@ -207,67 +267,3 @@ adForm.addEventListener('input', function () {
   formValidation();
 });
 
-// Задание №2
-// Закоментировано до 2-го задания 4 раздела
-// var TYPE_FLAT_TRANSLATE = {
-//   flat: 'Квартира',
-//   bungalo: 'Бунгало',
-//   house: 'Дом',
-//   palace: 'Дворец'
-// };
-
-// var cardTemplate = document.querySelector('#card')
-// .content
-// .querySelector('.map__card');
-// var imgTemplate = document.querySelector('#card')
-// .content
-// .querySelector('.popup__photo');
-
-// var mapFilters = map.querySelector('.map__filters-container');
-
-// Вставка списка удобств
-// var insertFeatures = function (element, array) {
-//   element.innerHTML = '';
-
-//   for (var i = 0; i < array.length; i++) {
-//     var featureItem = document.createElement('li');
-//     featureItem.classList.add('popup__feature');
-//     featureItem.classList.add('popup__feature--' + array[i]);
-//     element.appendChild(featureItem);
-//   }
-// };
-
-// Вставка фотографий
-// var insertPhotos = function (element, array) {
-//   element.innerHTML = '';
-
-//   for (var j = 0; j < array.length; j++) {
-//     var adPhoto = imgTemplate.cloneNode(true);
-//     adPhoto.src = array[j];
-//     element.appendChild(adPhoto);
-//   }
-// };
-
-// Создание 1 объявления
-// var renderCard = function (card) {
-//   var cardElement = cardTemplate.cloneNode(true);
-
-//   cardElement.querySelector('.popup__title').textContent = card.offer.title;
-//   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-//   cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
-//   cardElement.querySelector('.popup__type').textContent = TYPE_FLAT_TRANSLATE[card.offer.type];
-//   cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
-//   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
-//   insertFeatures(cardElement.querySelector('.popup__features'), card.offer.features);
-//   cardElement.querySelector('.popup__description').textContent = card.offer.description;
-//   insertPhotos(cardElement.querySelector('.popup__photos'), card.offer.photos);
-//   cardElement.querySelector('.popup__avatar').src = card.author.avatar;
-
-//   return cardElement;
-// };
-
-// var showCard = function (ad) {
-//   mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
-// };
-
-// showCard(data[0]);
