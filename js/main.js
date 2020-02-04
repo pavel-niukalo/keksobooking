@@ -101,12 +101,9 @@ var renderAds = function (array) {
 };
 
 var data = generateData(NUMBER_OF_ADS);
-renderAds(data);
-
-map.classList.remove('map--faded');
 
 // Задание №2
-
+// Закоментировано до 2-го задания 4 раздела
 var TYPE_FLAT_TRANSLATE = {
   flat: 'Квартира',
   bungalo: 'Бунгало',
@@ -121,7 +118,8 @@ var imgTemplate = document.querySelector('#card')
 .content
 .querySelector('.popup__photo');
 
-var mapFilters = map.querySelector('.map__filters-container');
+// Временное решение
+// var mapFilters = map.querySelector('.map__filters-container');
 
 // Вставка списка удобств
 var insertFeatures = function (element, array) {
@@ -165,7 +163,107 @@ var renderCard = function (card) {
 };
 
 var showCard = function (ad) {
-  mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
+  // Временное решение
+  return renderCard(ad);
+  // mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
 };
 
 showCard(data[0]);
+
+// Задание №1 4-го раздела
+var ENTER_KEY = 'Enter';
+var LEFT_MOUSE_BUTTON = 1;
+var PIN_WIDTH = 65;
+var PIN_HEIGHT = 65;
+var PIN_TAIL = 22;
+
+var mapPinMain = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var adFormFieldset = adForm.querySelectorAll('fieldset');
+var filtersFormFieldset = document.querySelectorAll('.map__filters fieldset');
+var filtersFormSelect = document.querySelectorAll('.map__filters select');
+var adressInput = adForm.querySelector('input[name="address"]');
+var numberRooms = adForm.querySelector('select[name=rooms]');
+var numberGuests = adForm.querySelector('select[name=capacity]');
+
+// Добавление disabled
+var setDisabled = function (collection, value) {
+  for (var i = 0; i < collection.length; i++) {
+    if (value) {
+      collection[i].setAttribute('disabled', 'disabled');
+    } else {
+      collection[i].removeAttribute('disabled', 'disabled');
+    }
+  }
+};
+
+setDisabled(adFormFieldset, true);
+setDisabled(filtersFormFieldset, true);
+setDisabled(filtersFormSelect, true);
+
+// Перевод в активное состояние
+var enableActiveState = function () {
+  adForm.classList.remove('ad-form--disabled');
+
+  setDisabled(adFormFieldset, false);
+  setDisabled(filtersFormFieldset, false);
+  setDisabled(filtersFormSelect, false);
+
+  renderAds(data);
+  map.classList.remove('map--faded');
+};
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.which === LEFT_MOUSE_BUTTON) {
+    enableActiveState();
+    adressInput.value = getCoordinatesMainPin();
+  }
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    enableActiveState();
+    adressInput.value = getCoordinatesMainPin();
+  }
+});
+
+// Заполнение поля адреса
+var getCoordinatesMainPin = function () {
+  var pinX = Math.round((mapPinMain.offsetLeft + PIN_WIDTH / 2) - mapPins.offsetLeft);
+  var pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT / 2);
+
+  if (!map.classList.contains('map--faded')) {
+    pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT + PIN_TAIL);
+  }
+
+  return pinX + ', ' + pinY;
+};
+
+adressInput.value = getCoordinatesMainPin();
+
+// Валидация комнат и гостей
+var checkNumberOfGuestsAndRooms = function () {
+  var roomsValue = parseInt(numberRooms.value, 10);
+  var guestsValue = parseInt(numberGuests.value, 10);
+
+  if (roomsValue !== 100 && guestsValue === 0) {
+    numberGuests.setCustomValidity('Недостаточно гостей');
+  } else if (roomsValue < guestsValue) {
+    numberGuests.setCustomValidity('Гостей очень много');
+  } else if (roomsValue === 100 && guestsValue !== 0) {
+    numberGuests.setCustomValidity('Данный вариант не для гостей');
+  } else {
+    numberGuests.setCustomValidity('');
+  }
+};
+
+var formValidation = function () {
+  checkNumberOfGuestsAndRooms();
+  // Здесь будут другие проверки
+};
+
+// Валидация формы
+adForm.addEventListener('input', function () {
+  formValidation();
+});
+
