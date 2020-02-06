@@ -78,7 +78,7 @@ var generateData = function (num) {
   return ads;
 };
 
-// Создание 1 объявления
+// Создание 1 метки
 var renderAd = function (data) {
   var pinElement = mapPinTemplate.cloneNode(true);
 
@@ -86,10 +86,14 @@ var renderAd = function (data) {
   pinElement.querySelector('img').src = data.author.avatar;
   pinElement.querySelector('img').alt = data.offer.title;
 
+  pinElement.addEventListener('click', function () {
+    showCard(data);
+  });
+
   return pinElement;
 };
 
-// Создание нужного количества объявлений
+// Создание нужного количества меток
 var renderAds = function (array) {
   var fragment = document.createDocumentFragment();
 
@@ -103,7 +107,6 @@ var renderAds = function (array) {
 var data = generateData(NUMBER_OF_ADS);
 
 // Задание №2
-// Закоментировано до 2-го задания 4 раздела
 var TYPE_FLAT_TRANSLATE = {
   flat: 'Квартира',
   bungalo: 'Бунгало',
@@ -118,8 +121,7 @@ var imgTemplate = document.querySelector('#card')
 .content
 .querySelector('.popup__photo');
 
-// Временное решение
-// var mapFilters = map.querySelector('.map__filters-container');
+var mapFilters = map.querySelector('.map__filters-container');
 
 // Вставка списка удобств
 var insertFeatures = function (element, array) {
@@ -159,19 +161,41 @@ var renderCard = function (card) {
   insertPhotos(cardElement.querySelector('.popup__photos'), card.offer.photos);
   cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
+  cardElement.querySelector('.popup__close')
+  .addEventListener('click', function () {
+    closeCard();
+  });
+
+  document.addEventListener('keydown', onCardEscPress);
+
   return cardElement;
 };
 
 var showCard = function (ad) {
-  // Временное решение
-  return renderCard(ad);
-  // mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
+  var activeCard = map.querySelector('.map__card');
+
+  // Проверка открытого объявления
+  if (activeCard) {
+    activeCard.remove();
+  }
+
+  mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
 };
 
-showCard(data[0]);
+var onCardEscPress = function (evt) {
+  if (evt.key === ESCAPE_KEY) {
+    closeCard();
+  }
+};
 
-// Задание №1 4-го раздела
+var closeCard = function () {
+  map.querySelector('.map__card').remove();
+  document.removeEventListener('keydown', onCardEscPress);
+};
+
+// Задание 4-го раздела
 var ENTER_KEY = 'Enter';
+var ESCAPE_KEY = 'Escape';
 var LEFT_MOUSE_BUTTON = 1;
 var PIN_WIDTH = 65;
 var PIN_HEIGHT = 65;
@@ -185,21 +209,31 @@ var filtersFormSelect = document.querySelectorAll('.map__filters select');
 var adressInput = adForm.querySelector('input[name="address"]');
 var numberRooms = adForm.querySelector('select[name=rooms]');
 var numberGuests = adForm.querySelector('select[name=capacity]');
+var typeFlat = adForm.querySelector('select[name=type]');
+var pricePerNight = adForm.querySelector('input[name=price]');
+var timeIn = adForm.querySelector('select[name=timein]');
+var timeOut = adForm.querySelector('select[name=timeout]');
 
 // Добавление disabled
 var setDisabled = function (collection, value) {
   for (var i = 0; i < collection.length; i++) {
-    if (value) {
-      collection[i].setAttribute('disabled', 'disabled');
-    } else {
-      collection[i].removeAttribute('disabled', 'disabled');
-    }
+    collection[i].disabled = value;
   }
 };
 
 setDisabled(adFormFieldset, true);
 setDisabled(filtersFormFieldset, true);
 setDisabled(filtersFormSelect, true);
+
+// Проверка пинов,
+// если пользователь нажимает несколько раз на главный пин
+var deletePins = function () {
+  var activeMapPins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+  for (var i = 0; i < activeMapPins.length; i++) {
+    activeMapPins[i].remove();
+  }
+};
 
 // Перевод в активное состояние
 var enableActiveState = function () {
@@ -209,6 +243,7 @@ var enableActiveState = function () {
   setDisabled(filtersFormFieldset, false);
   setDisabled(filtersFormSelect, false);
 
+  deletePins();
   renderAds(data);
   map.classList.remove('map--faded');
 };
@@ -228,12 +263,18 @@ mapPinMain.addEventListener('keydown', function (evt) {
 });
 
 // Заполнение поля адреса
+var isActivate = function () {
+  return !map.classList.contains('map--faded');
+};
+
 var getCoordinatesMainPin = function () {
   var pinX = Math.round((mapPinMain.offsetLeft + PIN_WIDTH / 2) - mapPins.offsetLeft);
-  var pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT / 2);
+  var pinY;
 
-  if (!map.classList.contains('map--faded')) {
+  if (isActivate()) {
     pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT + PIN_TAIL);
+  } else {
+    pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT / 2);
   }
 
   return pinX + ', ' + pinY;
@@ -257,13 +298,48 @@ var checkNumberOfGuestsAndRooms = function () {
   }
 };
 
-var formValidation = function () {
-  checkNumberOfGuestsAndRooms();
-  // Здесь будут другие проверки
+// Установка минимальной цены
+var setMinPrice = function () {
+  var selectedType = typeFlat.value;
+  var value;
+
+  if (selectedType === 'bungalo') {
+    value = 0;
+  } else if (selectedType === 'flat') {
+    value = 1000;
+  } else if (selectedType === 'house') {
+    value = 5000;
+  } else {
+    value = 10000;
+  }
+
+  pricePerNight.setAttribute('min', value);
+  pricePerNight.setAttribute('placeholder', value);
+};
+
+// Синхронизация времени заезда и выезда
+var toSyncTimeOut = function () {
+  timeOut.value = timeIn.value;
+};
+
+var toSyncTimeIn = function () {
+  timeIn.value = timeOut.value;
 };
 
 // Валидация формы
-adForm.addEventListener('input', function () {
-  formValidation();
+numberRooms.addEventListener('change', function () {
+  checkNumberOfGuestsAndRooms();
+});
+
+typeFlat.addEventListener('change', function () {
+  setMinPrice();
+});
+
+timeIn.addEventListener('change', function () {
+  toSyncTimeOut();
+});
+
+timeOut.addEventListener('change', function () {
+  toSyncTimeIn();
 });
 
