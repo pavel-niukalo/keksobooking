@@ -318,21 +318,12 @@ var setMinPrice = function () {
 };
 
 // Синхронизация времени заезда и выезда
-var toSyncTime = function () {
-  var changeTimeIn = function () {
-    timeOut.value = timeIn.value;
-  };
+var toSyncTimeOut = function () {
+  timeOut.value = timeIn.value;
+};
 
-  var changeTimeOut = function () {
-    timeIn.value = timeOut.value;
-  };
-
-  timeIn.addEventListener('change', function () {
-    changeTimeIn();
-  });
-  timeOut.addEventListener('change', function () {
-    changeTimeOut();
-  });
+var toSyncTimeIn = function () {
+  timeIn.value = timeOut.value;
 };
 
 // Валидация формы
@@ -345,6 +336,10 @@ typeFlat.addEventListener('change', function () {
 });
 
 timeIn.addEventListener('change', function () {
-  toSyncTime();
+  toSyncTimeOut();
+});
+
+timeOut.addEventListener('change', function () {
+  toSyncTimeIn();
 });
 
