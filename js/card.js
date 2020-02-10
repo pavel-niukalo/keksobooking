@@ -8,6 +8,7 @@
     palace: 'Дворец'
   };
 
+  var map = document.querySelector('.map');
   var cardTemplate = document.querySelector('#card')
   .content
   .querySelector('.map__card');
@@ -39,6 +40,7 @@
     }
   };
 
+  // Создание объявления
   var renderCard = function (card) {
     var cardElement = cardTemplate.cloneNode(true);
 
@@ -55,19 +57,19 @@
 
     cardElement.querySelector('.popup__close')
     .addEventListener('click', function () {
-      window.map.closeCard();
+      closeCard();
     });
 
-    document.addEventListener('keydown', window.map.onCardEscPress);
+    document.addEventListener('keydown', onCardEscPress);
 
     return cardElement;
   };
 
-  var mapFilters = window.data.map.querySelector('.map__filters-container');
+  var mapFilters = map.querySelector('.map__filters-container');
 
   // Показ объявления
   var showCard = function (ad) {
-    var activeCard = window.data.map.querySelector('.map__card');
+    var activeCard = map.querySelector('.map__card');
 
     // Проверка открытого объявления
     if (activeCard) {
@@ -77,7 +79,17 @@
     mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
   };
 
+  // Взаимодействие с карточкой
+  var onCardEscPress = function (evt) {
+    window.util.isEscapeEvent(evt, closeCard);
+  };
+
+  var closeCard = function () {
+    map.querySelector('.map__card').remove();
+    document.removeEventListener('keydown', onCardEscPress);
+  };
+
   window.card = {
-    showCard: showCard
+    show: showCard
   };
 })();

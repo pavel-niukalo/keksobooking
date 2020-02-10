@@ -17,24 +17,13 @@
     pinElement.querySelector('img').alt = data.offer.title;
 
     pinElement.addEventListener('click', function () {
-      window.card.showCard(data);
+      window.app.showCard(data);
     });
 
     return pinElement;
   };
 
-  // Создание нужного количества меток
-  var renderAds = function (array) {
-    var fragment = document.createDocumentFragment();
-
-    for (var j = 0; j < array.length; j++) {
-      fragment.appendChild(renderAd(array[j]));
-    }
-
-    window.defolt.mapPins.appendChild(fragment);
-  };
-
   window.pin = {
-    renderAds: renderAds
+    render: renderAd
   };
 })();

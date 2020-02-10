@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var NUMBER_OF_ADS = 8;
   var TITLES_AD = ['Title1', 'Title2', 'Title3', 'Title4', 'Title5', 'Title6', 'Title7', 'Title8'];
   var PRICE_FLAT = [5000, 10000, 30000, 50000, 100000];
   var TYPE_FLAT = ['palace', 'flat', 'house', 'bungalo'];
@@ -50,10 +49,7 @@
     return ads;
   };
 
-  var dataArray = generateData(NUMBER_OF_ADS);
-
   window.data = {
-    map: map,
-    dataArray: dataArray
+    generateData: generateData
   };
 })();

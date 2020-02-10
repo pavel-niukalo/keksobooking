@@ -2,12 +2,30 @@
 
 (function () {
   var adForm = document.querySelector('.ad-form');
+  var adFormFieldset = adForm.querySelectorAll('fieldset');
+  var adressInput = adForm.querySelector('input[name="address"]');
   var numberRooms = adForm.querySelector('select[name=rooms]');
   var numberGuests = adForm.querySelector('select[name=capacity]');
   var typeFlat = adForm.querySelector('select[name=type]');
   var pricePerNight = adForm.querySelector('input[name=price]');
   var timeIn = adForm.querySelector('select[name=timein]');
   var timeOut = adForm.querySelector('select[name=timeout]');
+
+  // Добавление disabled форме
+  var setDisabled = function (collection, value) {
+    for (var i = 0; i < collection.length; i++) {
+      collection[i].disabled = value;
+    }
+  };
+
+  setDisabled(adFormFieldset, true);
+
+  // Заполнение поля адреса
+  var setAddress = function () {
+    adressInput.value = window.app.takeCoordinats();
+  };
+
+  setAddress();
 
   // Валидация комнат и гостей
   var checkNumberOfGuestsAndRooms = function () {
@@ -69,4 +87,9 @@
   timeOut.addEventListener('change', function () {
     toSyncTimeIn();
   });
+
+  window.form = {
+    setDisabled: setDisabled,
+    setAddress: setAddress
+  };
 })();
