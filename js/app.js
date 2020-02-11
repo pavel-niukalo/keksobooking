@@ -1,24 +1,17 @@
 'use strict';
 
 (function () {
-  var doDataArray = function (number) {
-    window.data.generateData(number);
+  var NUMBER_OF_ADS = 8;
+
+  var activate = function () {
+    window.map.enableActiveStateOfMap();
+    window.map.renderAds(window.data.generateData(NUMBER_OF_ADS));
+    window.form.enableActiveStateOfForm();
   };
 
-  var renderAd = function (data) {
-    window.pin.render(data);
-  };
-
-  var takeCoordinats = function () {
-    window.pinMain.getCoordinatesMainPin();
-  };
-
-  var putDisabled = function (collection, value) {
-    window.form.setDisabled(collection, value);
-  };
-
-  var takeAddress = function () {
-    window.form.setAddress();
+  var updateCoordinates = function () {
+    var coords = window.pinMain.getCoordinates();
+    window.form.setAddress(coords);
   };
 
   var showCard = function (adDate) {
@@ -26,11 +19,8 @@
   };
 
   window.app = {
-    doDataArray: doDataArray,
-    renderAd: renderAd,
-    takeCoordinats: takeCoordinats,
-    putDisabled: putDisabled,
-    takeAddress: takeAddress,
+    activate: activate,
+    updateCoordinates: updateCoordinates,
     showCard: showCard
   };
 })();

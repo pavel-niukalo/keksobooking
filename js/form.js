@@ -21,11 +21,18 @@
   setDisabled(adFormFieldset, true);
 
   // Заполнение поля адреса
-  var setAddress = function () {
-    adressInput.value = window.app.takeCoordinats();
+  var setAddress = function (coords) {
+    adressInput.value = coords;
   };
 
-  setAddress();
+  setAddress(window.pinMain.getCoordinates());
+
+  // Перевод в активное состояние
+  var enableActiveStateOfForm = function () {
+    adForm.classList.remove('ad-form--disabled');
+
+    setDisabled(adFormFieldset, false);
+  };
 
   // Валидация комнат и гостей
   var checkNumberOfGuestsAndRooms = function () {
@@ -89,7 +96,7 @@
   });
 
   window.form = {
-    setDisabled: setDisabled,
+    enableActiveStateOfForm: enableActiveStateOfForm,
     setAddress: setAddress
   };
 })();

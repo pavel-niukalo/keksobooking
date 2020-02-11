@@ -24,6 +24,6 @@
   };
 
   window.pin = {
-    render: renderAd
+    renderAd: renderAd
   };
 })();
