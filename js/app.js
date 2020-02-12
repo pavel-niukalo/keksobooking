@@ -4,9 +4,9 @@
   var NUMBER_OF_ADS = 8;
 
   var activate = function () {
-    window.map.enableActiveStateOfMap();
-    window.map.renderAds(window.data.generateData(NUMBER_OF_ADS));
-    window.form.enableActiveStateOfForm();
+    window.map.enableActiveState();
+    window.map.renderAds(window.data.generate(NUMBER_OF_ADS));
+    window.form.enableActiveState();
   };
 
   var updateCoordinates = function () {

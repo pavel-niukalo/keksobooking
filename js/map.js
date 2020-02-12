@@ -39,7 +39,7 @@
   };
 
   // Перевод в активное состояние
-  var enableActiveStateOfMap = function () {
+  var enableActiveState = function () {
     setDisabled(filtersFormFieldset, false);
     setDisabled(filtersFormSelect, false);
 
@@ -48,7 +48,7 @@
   };
 
   window.map = {
-    enableActiveStateOfMap: enableActiveStateOfMap,
+    enableActiveState: enableActiveState,
     renderAds: renderAds
   };
 })();
