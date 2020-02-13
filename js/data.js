@@ -50,6 +50,7 @@
   };
 
   window.data = {
-    generateData: generateData
+    generate: generateData,
+    widthMap: widthMap
   };
 })();

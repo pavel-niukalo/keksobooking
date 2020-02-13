@@ -28,7 +28,7 @@
   setAddress(window.pinMain.getCoordinates());
 
   // Перевод в активное состояние
-  var enableActiveStateOfForm = function () {
+  var enableActiveState = function () {
     adForm.classList.remove('ad-form--disabled');
 
     setDisabled(adFormFieldset, false);
@@ -96,7 +96,7 @@
   });
 
   window.form = {
-    enableActiveStateOfForm: enableActiveStateOfForm,
+    enableActiveState: enableActiveState,
     setAddress: setAddress
   };
 })();
