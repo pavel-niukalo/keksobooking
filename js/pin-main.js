@@ -5,7 +5,7 @@
   var PIN_HEIGHT = 65;
   var PIN_TAIL = 22;
   var MIN_Y = 130 - PIN_HEIGHT / 2;
-  var MAX_Y = 630 + PIN_HEIGHT / 2;
+  var MAX_Y = 630 - PIN_HEIGHT / 2;
   var MIN_X = 0 - PIN_WIDTH / 2;
   var MAX_X = window.data.widthMap - PIN_WIDTH / 2;
 
@@ -19,13 +19,13 @@
   };
 
   var getCoordinates = function () {
-    var pinX = Math.round((mapPinMain.offsetLeft + PIN_WIDTH / 2) - mapPins.offsetLeft);
+    var pinX = Math.floor((mapPinMain.offsetLeft + PIN_WIDTH / 2) - mapPins.offsetLeft);
     var pinY;
 
     if (isActivate()) {
-      pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT + PIN_TAIL);
+      pinY = Math.floor(mapPinMain.offsetTop + PIN_HEIGHT + PIN_TAIL);
     } else {
-      pinY = Math.round(mapPinMain.offsetTop + PIN_HEIGHT / 2);
+      pinY = Math.floor(mapPinMain.offsetTop + PIN_HEIGHT / 2);
     }
 
     return pinX + ', ' + pinY;
