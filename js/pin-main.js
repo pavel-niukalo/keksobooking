@@ -4,8 +4,8 @@
   var PIN_WIDTH = 65;
   var PIN_HEIGHT = 65;
   var PIN_TAIL = 22;
-  var MIN_Y = 75 - PIN_HEIGHT / 2;
-  var MAX_Y = 575 - PIN_HEIGHT / 2;
+  var MIN_Y = 130 - (PIN_HEIGHT + PIN_TAIL);
+  var MAX_Y = 630 - (PIN_HEIGHT + PIN_TAIL);
   var MIN_X = 0 - PIN_WIDTH / 2;
   var MAX_X = widthMap - PIN_WIDTH / 2;
 

@@ -44,11 +44,6 @@
     var closeError = function () {
       error.remove();
       document.removeEventListener('keydown', onErrorEscPress);
-
-      error.querySelector('.error__button')
-      .addEventListener('click', function () {
-        closeError();
-      });
     };
 
     error.querySelector('.error__message').textContent = errorMessage;
