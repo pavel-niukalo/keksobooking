@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var NUMBER_OF_ADS = 8;
+
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
 
@@ -31,7 +33,7 @@
   var renderAds = function (array) {
     var fragment = document.createDocumentFragment();
 
-    for (var j = 0; j < array.length; j++) {
+    for (var j = 0; j < NUMBER_OF_ADS; j++) {
       fragment.appendChild(window.pin.renderAd(array[j]));
     }
 

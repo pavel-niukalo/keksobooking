@@ -1,11 +1,9 @@
 'use strict';
 
 (function () {
-  var NUMBER_OF_ADS = 8;
-
   var activate = function () {
     window.map.enableActiveState();
-    window.map.renderAds(window.data.generate(NUMBER_OF_ADS));
+    window.backend.load(window.map.renderAds, window.backend.onError);
     window.form.enableActiveState();
   };
 
