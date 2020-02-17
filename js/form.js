@@ -10,6 +10,12 @@
   var pricePerNight = adForm.querySelector('input[name=price]');
   var timeIn = adForm.querySelector('select[name=timein]');
   var timeOut = adForm.querySelector('select[name=timeout]');
+  var adFormSubmit = adForm.querySelector('.ad-form__submit');
+  var adFormReset = adForm.querySelector('.ad-form__reset');
+
+  var templateSuccess = document.querySelector('#success')
+    .content
+    .querySelector('.success');
 
   // Добавление disabled форме
   var setDisabled = function (collection, value) {
@@ -32,6 +38,13 @@
     adForm.classList.remove('ad-form--disabled');
 
     setDisabled(adFormFieldset, false);
+  };
+
+  // Перевод в неактивное состояние
+  var enableInactiveState = function () {
+    adForm.classList.add('ad-form--disabled');
+
+    setDisabled(adFormFieldset, true);
   };
 
   // Валидация комнат и гостей
@@ -95,8 +108,55 @@
     toSyncTimeIn();
   });
 
+  // Отправка формы
+  var submitFormSuccessful = function () {
+    // Показ сообщения об успехе
+    var success = templateSuccess.cloneNode(true);
+
+    var onsuccessEscPress = function (evt) {
+      window.util.isEscapeEvent(evt, closeSuccess);
+    };
+
+    var closeSuccess = function () {
+      success.remove();
+      document.removeEventListener('keydown', onsuccessEscPress);
+    };
+
+    document.querySelector('main')
+    .append(success);
+
+    document.addEventListener('keydown', onsuccessEscPress);
+
+    document.addEventListener('click', function () {
+      closeSuccess();
+    });
+
+    adFormSubmit.textContent = 'Опубликовать';
+    adFormSubmit.disabled = false;
+
+    // Деактивация страницы
+    window.app.deactivate();
+    adForm.reset();
+    window.app.updateCoordinates();
+  };
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    adFormSubmit.textContent = 'Отправка';
+    adFormSubmit.disabled = true;
+
+    window.backend.save(new FormData(adForm), submitFormSuccessful, window.backend.onError);
+  });
+
+  adFormReset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    adForm.reset();
+    setAddress(window.pinMain.getCoordinates());
+  });
+
   window.form = {
     enableActiveState: enableActiveState,
+    enableInactiveState: enableInactiveState,
     setAddress: setAddress
   };
 })();

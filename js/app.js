@@ -7,6 +7,13 @@
     window.form.enableActiveState();
   };
 
+  var deactivate = function () {
+    window.map.enableInactiveState();
+    window.form.enableInactiveState();
+    window.pinMain.getDefoltCoordinates();
+    window.card.deleteCard();
+  };
+
   var updateCoordinates = function () {
     var coords = window.pinMain.getCoordinates();
     window.form.setAddress(coords);
@@ -18,6 +25,7 @@
 
   window.app = {
     activate: activate,
+    deactivate: deactivate,
     updateCoordinates: updateCoordinates,
     showCard: showCard
   };
