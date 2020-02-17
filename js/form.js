@@ -113,19 +113,19 @@
     // Показ сообщения об успехе
     var success = templateSuccess.cloneNode(true);
 
-    var onsuccessEscPress = function (evt) {
+    var onSuccessEscPress = function (evt) {
       window.util.isEscapeEvent(evt, closeSuccess);
     };
 
     var closeSuccess = function () {
       success.remove();
-      document.removeEventListener('keydown', onsuccessEscPress);
+      document.removeEventListener('keydown', onSuccessEscPress);
     };
 
     document.querySelector('main')
     .append(success);
 
-    document.addEventListener('keydown', onsuccessEscPress);
+    document.addEventListener('keydown', onSuccessEscPress);
 
     document.addEventListener('click', function () {
       closeSuccess();

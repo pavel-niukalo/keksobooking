@@ -45,7 +45,7 @@
     setDisabled(filtersFormFieldset, false);
     setDisabled(filtersFormSelect, false);
 
-    // deletePins();
+    deletePins();
     map.classList.remove('map--faded');
   };
 
