@@ -7,12 +7,13 @@
   var MIN_Y = 130 - (PIN_HEIGHT + PIN_TAIL);
   var MAX_Y = 630 - (PIN_HEIGHT + PIN_TAIL);
   var MIN_X = 0 - PIN_WIDTH / 2;
-  var MAX_X = widthMap - PIN_WIDTH / 2;
+  var MAX_X = 1200 - PIN_WIDTH / 2;
 
   var map = document.querySelector('.map');
-  var widthMap = map.offsetWidth;
   var mapPinMain = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
+  var defoltX = getComputedStyle(mapPinMain).left;
+  var defoltY = getComputedStyle(mapPinMain).top;
 
   // Получение координат
   var isActivate = function () {
@@ -30,6 +31,12 @@
     }
 
     return pinX + ', ' + pinY;
+  };
+
+  // Установка координат по-умолчанию
+  var setDefoltCoordinates = function () {
+    mapPinMain.style.left = defoltX;
+    mapPinMain.style.top = defoltY;
   };
 
   // Ограничение по горизонтали
@@ -103,6 +110,7 @@
   });
 
   window.pinMain = {
-    getCoordinates: getCoordinates
+    getCoordinates: getCoordinates,
+    setDefoltCoordinates: setDefoltCoordinates
   };
 })();

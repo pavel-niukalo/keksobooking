@@ -49,8 +49,18 @@
     map.classList.remove('map--faded');
   };
 
+  // Перевод в неактивное состояние
+  var enableInactiveState = function () {
+    setDisabled(filtersFormFieldset, true);
+    setDisabled(filtersFormSelect, true);
+
+    deletePins();
+    map.classList.add('map--faded');
+  };
+
   window.map = {
     enableActiveState: enableActiveState,
+    enableInactiveState: enableInactiveState,
     renderAds: renderAds
   };
 })();

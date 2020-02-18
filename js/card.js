@@ -67,15 +67,18 @@
 
   var mapFilters = map.querySelector('.map__filters-container');
 
-  // Показ объявления
-  var showCard = function (ad) {
+  // Проверка открытого объявления
+  var deleteCard = function () {
     var activeCard = map.querySelector('.map__card');
 
-    // Проверка открытого объявления
     if (activeCard) {
       activeCard.remove();
     }
+  };
 
+  // Показ объявления
+  var showCard = function (ad) {
+    deleteCard();
     mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
   };
 
@@ -90,6 +93,7 @@
   };
 
   window.card = {
-    show: showCard
+    show: showCard,
+    deleteCard: deleteCard
   };
 })();

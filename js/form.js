@@ -10,6 +10,8 @@
   var pricePerNight = adForm.querySelector('input[name=price]');
   var timeIn = adForm.querySelector('select[name=timein]');
   var timeOut = adForm.querySelector('select[name=timeout]');
+  var adFormSubmit = adForm.querySelector('.ad-form__submit');
+  var adFormReset = adForm.querySelector('.ad-form__reset');
 
   // Добавление disabled форме
   var setDisabled = function (collection, value) {
@@ -32,6 +34,13 @@
     adForm.classList.remove('ad-form--disabled');
 
     setDisabled(adFormFieldset, false);
+  };
+
+  // Перевод в неактивное состояние
+  var enableInactiveState = function () {
+    adForm.classList.add('ad-form--disabled');
+
+    setDisabled(adFormFieldset, true);
   };
 
   // Валидация комнат и гостей
@@ -95,8 +104,47 @@
     toSyncTimeIn();
   });
 
+  // Успешная отправка формы
+  var submitFormSuccessful = function () {
+    // Показ сообщения об успехе
+    window.success.showMessage();
+
+    adFormSubmit.textContent = 'Опубликовать';
+    adFormSubmit.disabled = false;
+
+    // Деактивация страницы
+    window.app.deactivate();
+    adForm.reset();
+    window.app.updateCoordinates();
+  };
+
+  // Ошибка при отправке формы
+  var submitFormError = function () {
+    window.error.showMessage('Ошибка загрузки объявления');
+    adFormSubmit.textContent = 'Опубликовать';
+    adFormSubmit.disabled = false;
+  };
+
+  // Отправка формы
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    adFormSubmit.textContent = 'Отправка';
+    adFormSubmit.disabled = true;
+
+    window.backend.save(new FormData(adForm), submitFormSuccessful, submitFormError);
+  });
+
+  // Сброс формы
+  adFormReset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.app.deactivate();
+    adForm.reset();
+    setAddress(window.pinMain.getCoordinates());
+  });
+
   window.form = {
     enableActiveState: enableActiveState,
+    enableInactiveState: enableInactiveState,
     setAddress: setAddress
   };
 })();
