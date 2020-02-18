@@ -13,10 +13,6 @@
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var adFormReset = adForm.querySelector('.ad-form__reset');
 
-  var templateSuccess = document.querySelector('#success')
-    .content
-    .querySelector('.success');
-
   // Добавление disabled форме
   var setDisabled = function (collection, value) {
     for (var i = 0; i < collection.length; i++) {
@@ -108,28 +104,10 @@
     toSyncTimeIn();
   });
 
-  // Отправка формы
+  // Успешная отправка формы
   var submitFormSuccessful = function () {
     // Показ сообщения об успехе
-    var success = templateSuccess.cloneNode(true);
-
-    var onSuccessEscPress = function (evt) {
-      window.util.isEscapeEvent(evt, closeSuccess);
-    };
-
-    var closeSuccess = function () {
-      success.remove();
-      document.removeEventListener('keydown', onSuccessEscPress);
-    };
-
-    document.querySelector('main')
-    .append(success);
-
-    document.addEventListener('keydown', onSuccessEscPress);
-
-    document.addEventListener('click', function () {
-      closeSuccess();
-    });
+    window.success.showMessage();
 
     adFormSubmit.textContent = 'Опубликовать';
     adFormSubmit.disabled = false;
@@ -140,16 +118,26 @@
     window.app.updateCoordinates();
   };
 
+  // Ошибка при отправке формы
+  var submitFormError = function () {
+    window.error.showMessage('Ошибка загрузки объявления');
+    adFormSubmit.textContent = 'Опубликовать';
+    adFormSubmit.disabled = false;
+  };
+
+  // Отправка формы
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     adFormSubmit.textContent = 'Отправка';
     adFormSubmit.disabled = true;
 
-    window.backend.save(new FormData(adForm), submitFormSuccessful, window.backend.onError);
+    window.backend.save(new FormData(adForm), submitFormSuccessful, submitFormError);
   });
 
+  // Сброс формы
   adFormReset.addEventListener('click', function (evt) {
     evt.preventDefault();
+    window.app.deactivate();
     adForm.reset();
     setAddress(window.pinMain.getCoordinates());
   });

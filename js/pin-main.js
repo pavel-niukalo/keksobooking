@@ -33,8 +33,8 @@
     return pinX + ', ' + pinY;
   };
 
-  // Получение координат по-умолчанию
-  var getDefoltCoordinates = function () {
+  // Установка координат по-умолчанию
+  var setDefoltCoordinates = function () {
     mapPinMain.style.left = defoltX;
     mapPinMain.style.top = defoltY;
   };
@@ -111,6 +111,6 @@
 
   window.pinMain = {
     getCoordinates: getCoordinates,
-    getDefoltCoordinates: getDefoltCoordinates
+    setDefoltCoordinates: setDefoltCoordinates
   };
 })();

@@ -3,14 +3,14 @@
 (function () {
   var activate = function () {
     window.map.enableActiveState();
-    window.backend.load(window.map.renderAds, window.backend.onError);
+    window.backend.load(window.map.renderAds, window.error.showMessage);
     window.form.enableActiveState();
   };
 
   var deactivate = function () {
     window.map.enableInactiveState();
     window.form.enableInactiveState();
-    window.pinMain.getDefoltCoordinates();
+    window.pinMain.setDefoltCoordinates();
     window.card.deleteCard();
   };
 

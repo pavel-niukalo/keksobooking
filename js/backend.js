@@ -3,14 +3,8 @@
 (function () {
   var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
   var URL_SAVE = 'https://js.dump.academy/keksobooking';
-  var SERVER_TIME = 10000;
+  var SERVER_TIME = 1;
   var STATUS_OK = 200;
-
-  var adFormSubmit = document.querySelector('.ad-form__submit');
-
-  var templateError = document.querySelector('#error')
-    .content
-    .querySelector('.error');
 
   var createXhr = function (onError) {
     var xhr = new XMLHttpRequest();
@@ -50,9 +44,7 @@
       if (xhr.status === STATUS_OK) {
         onSuccess(xhr.response);
       } else {
-        onError('Ошибка загрузки объявления');
-        adFormSubmit.textContent = 'Опубликовать';
-        adFormSubmit.disabled = false;
+        onError();
       }
     });
 
@@ -60,37 +52,8 @@
     xhr.send(data);
   };
 
-  var onError = function (errorMessage) {
-    var error = templateError.cloneNode(true);
-
-    var onErrorEscPress = function (evt) {
-      window.util.isEscapeEvent(evt, closeError);
-    };
-
-    var closeError = function () {
-      error.remove();
-      document.removeEventListener('keydown', onErrorEscPress);
-    };
-
-    error.querySelector('.error__message').textContent = errorMessage;
-
-    document.querySelector('main')
-    .append(error);
-
-    document.addEventListener('click', function () {
-      closeError();
-    });
-    document.addEventListener('keydown', onErrorEscPress);
-
-    error.querySelector('.error__button')
-    .addEventListener('click', function () {
-      closeError();
-    });
-  };
-
   window.backend = {
     load: load,
-    save: save,
-    onError: onError
+    save: save
   };
 })();
