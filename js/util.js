@@ -47,10 +47,6 @@
       newArray.push(arr[item]);
     });
 
-    // for (var i = 0; i < lengthArray; i++) {
-    // newArray.push(arr[i]);
-    // }
-
     return newArray;
   };
 

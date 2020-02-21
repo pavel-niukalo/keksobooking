@@ -18,9 +18,6 @@
     collection.forEach(function (item) {
       item.disabled = value;
     });
-    // for (var i = 0; i < collection.length; i++) {
-    //   collection[i].disabled = value;
-    // }
   };
 
   setDisabled(adFormFieldset, true);
