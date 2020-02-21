@@ -1,9 +1,11 @@
 'use strict';
 
 (function () {
+  var adForm = document.querySelector('.ad-form');
+
   var activate = function () {
     window.map.enableActiveState();
-    window.backend.load(window.map.renderAds, window.error.showMessage);
+    window.backend.load(window.filter.successHandler, window.error.showMessage);
     window.form.enableActiveState();
   };
 
@@ -12,6 +14,8 @@
     window.form.enableInactiveState();
     window.pinMain.setDefoltCoordinates();
     window.card.deleteCard();
+    adForm.reset();
+    updateCoordinates();
   };
 
   var updateCoordinates = function () {

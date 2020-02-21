@@ -15,9 +15,12 @@
 
   // Добавление disabled форме
   var setDisabled = function (collection, value) {
-    for (var i = 0; i < collection.length; i++) {
-      collection[i].disabled = value;
-    }
+    collection.forEach(function (item) {
+      item.disabled = value;
+    });
+    // for (var i = 0; i < collection.length; i++) {
+    //   collection[i].disabled = value;
+    // }
   };
 
   setDisabled(adFormFieldset, true);
@@ -114,8 +117,6 @@
 
     // Деактивация страницы
     window.app.deactivate();
-    adForm.reset();
-    window.app.updateCoordinates();
   };
 
   // Ошибка при отправке формы
@@ -138,8 +139,6 @@
   adFormReset.addEventListener('click', function (evt) {
     evt.preventDefault();
     window.app.deactivate();
-    adForm.reset();
-    setAddress(window.pinMain.getCoordinates());
   });
 
   window.form = {

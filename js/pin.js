@@ -1,8 +1,10 @@
 'use strict';
 
 (function () {
-  var LOCATION_Y_SHIFT = 70;
-  var LOCATION_X_SHIFT = 25;
+  var Shift = {
+    LOCATION_X: 70,
+    LOCATION_Y: 25
+  };
 
   var mapPinTemplate = document.querySelector('#pin')
   .content
@@ -12,7 +14,8 @@
   var renderAd = function (data) {
     var pinElement = mapPinTemplate.cloneNode(true);
 
-    pinElement.style = 'left:' + (data.location.x - LOCATION_X_SHIFT) + 'px; top:' + (data.location.y - LOCATION_Y_SHIFT) + 'px;';
+    pinElement.style.left = (data.location.x - Shift.LOCATION_X) + 'px';
+    pinElement.style.top = (data.location.y - Shift.LOCATION_Y) + 'px';
     pinElement.querySelector('img').src = data.author.avatar;
     pinElement.querySelector('img').alt = data.offer.title;
 

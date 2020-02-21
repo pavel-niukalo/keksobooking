@@ -1,13 +1,18 @@
 'use strict';
 
 (function () {
-  var PIN_WIDTH = 65;
-  var PIN_HEIGHT = 65;
-  var PIN_TAIL = 22;
-  var MIN_Y = 130 - (PIN_HEIGHT + PIN_TAIL);
-  var MAX_Y = 630 - (PIN_HEIGHT + PIN_TAIL);
-  var MIN_X = 0 - PIN_WIDTH / 2;
-  var MAX_X = 1200 - PIN_WIDTH / 2;
+  var Pin = {
+    WIDTH: 65,
+    HEIGHT: 65,
+    TAIL: 22
+  };
+
+  var Limit = {
+    MIN_Y: 130 - (Pin.HEIGHT + Pin.TAIL),
+    MAX_Y: 630 - (Pin.HEIGHT + Pin.TAIL),
+    MIN_X: 0 - Pin.WIDTH / 2,
+    MAX_X: 1200 - Pin.WIDTH / 2
+  };
 
   var map = document.querySelector('.map');
   var mapPinMain = document.querySelector('.map__pin--main');
@@ -21,13 +26,13 @@
   };
 
   var getCoordinates = function () {
-    var pinX = Math.floor((mapPinMain.offsetLeft + PIN_WIDTH / 2) - mapPins.offsetLeft);
+    var pinX = Math.floor((mapPinMain.offsetLeft + Pin.WIDTH / 2) - mapPins.offsetLeft);
     var pinY;
 
     if (isActivate()) {
-      pinY = Math.floor(mapPinMain.offsetTop + PIN_HEIGHT + PIN_TAIL);
+      pinY = Math.floor(mapPinMain.offsetTop + Pin.HEIGHT + Pin.TAIL);
     } else {
-      pinY = Math.floor(mapPinMain.offsetTop + PIN_HEIGHT / 2);
+      pinY = Math.floor(mapPinMain.offsetTop + Pin.HEIGHT / 2);
     }
 
     return pinX + ', ' + pinY;
@@ -41,10 +46,10 @@
 
   // Ограничение по горизонтали
   var getLimitX = function (left) {
-    if (left < MIN_X) {
-      return MIN_X;
-    } else if (left > MAX_X) {
-      return MAX_X;
+    if (left < Limit.MIN_X) {
+      return Limit.MIN_X;
+    } else if (left > Limit.MAX_X) {
+      return Limit.MAX_X;
     }
 
     return left;
@@ -52,10 +57,10 @@
 
   // Ограничение по вертикали
   var getLimitY = function (top) {
-    if (top < MIN_Y) {
-      return MIN_Y;
-    } else if (top > MAX_Y) {
-      return MAX_Y;
+    if (top < Limit.MIN_Y) {
+      return Limit.MIN_Y;
+    } else if (top > Limit.MAX_Y) {
+      return Limit.MAX_Y;
     }
 
     return top;

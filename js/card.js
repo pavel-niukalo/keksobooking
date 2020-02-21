@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var TYPE_FLAT_TRANSLATE = {
+  var typeFlatTranslateMap = {
     flat: 'Квартира',
     bungalo: 'Бунгало',
     house: 'Дом',
@@ -21,23 +21,34 @@
   var insertFeatures = function (element, array) {
     element.innerHTML = '';
 
-    for (var i = 0; i < array.length; i++) {
+    array.forEach(function (item) {
       var featureItem = document.createElement('li');
       featureItem.classList.add('popup__feature');
-      featureItem.classList.add('popup__feature--' + array[i]);
+      featureItem.classList.add('popup__feature--' + item);
       element.appendChild(featureItem);
-    }
+    });
+    // for (var i = 0; i < array.length; i++) {
+    //   var featureItem = document.createElement('li');
+    //   featureItem.classList.add('popup__feature');
+    //   featureItem.classList.add('popup__feature--' + array[i]);
+    //   element.appendChild(featureItem);
+    // }
   };
 
   // Вставка фотографий
   var insertPhotos = function (element, array) {
     element.innerHTML = '';
 
-    for (var j = 0; j < array.length; j++) {
+    array.forEach(function (item) {
       var adPhoto = imgTemplate.cloneNode(true);
-      adPhoto.src = array[j];
+      adPhoto.src = item;
       element.appendChild(adPhoto);
-    }
+    });
+    // for (var j = 0; j < array.length; j++) {
+    //   var adPhoto = imgTemplate.cloneNode(true);
+    //   adPhoto.src = array[j];
+    //   element.appendChild(adPhoto);
+    // }
   };
 
   // Создание объявления
@@ -47,7 +58,7 @@
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = TYPE_FLAT_TRANSLATE[card.offer.type];
+    cardElement.querySelector('.popup__type').textContent = typeFlatTranslateMap[card.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     insertFeatures(cardElement.querySelector('.popup__features'), card.offer.features);
