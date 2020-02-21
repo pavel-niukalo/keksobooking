@@ -69,7 +69,15 @@
   // Взаимодействие с главныйм пином
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-    window.util.isMouseEvent(evt, window.app.activate);
+
+    // Проверка окрытой карты,
+    // для того, чтобы при каждом нажатии на главный пин
+    // не происходила повторная активация страницы,
+    // в том числе и повторная загрузка данных
+    if (map.classList.contains('map--faded')) {
+      window.util.isMouseEvent(evt, window.app.activate);
+    }
+
     window.app.updateCoordinates();
 
     var startCoords = {

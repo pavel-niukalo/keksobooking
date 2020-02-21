@@ -38,11 +38,13 @@
   // Создание нужного количества меток
   var renderAds = function (array) {
     var fragment = document.createDocumentFragment();
+    var len = Math.min(array.length, NUMBER_OF_ADS);
 
-    for (var i = 0; i < NUMBER_OF_ADS; i++) {
+    for (var i = 0; i < len; i++) {
       fragment.appendChild(window.pin.renderAd(array[i]));
     }
 
+    deletePins();
     mapPins.appendChild(fragment);
 
     setDisabled(filtersFormFieldset, false);
@@ -51,7 +53,6 @@
 
   // Перевод в активное состояние
   var enableActiveState = function () {
-    deletePins();
     map.classList.remove('map--faded');
   };
 

@@ -2,6 +2,7 @@
 
 (function () {
   var adForm = document.querySelector('.ad-form');
+  var mapFilters = document.querySelector('.map__filters');
 
   var activate = function () {
     window.map.enableActiveState();
@@ -13,8 +14,9 @@
     window.map.enableInactiveState();
     window.form.enableInactiveState();
     window.pinMain.setDefoltCoordinates();
-    window.card.deleteCard();
+    window.card.delete();
     adForm.reset();
+    mapFilters.reset();
     updateCoordinates();
   };
 

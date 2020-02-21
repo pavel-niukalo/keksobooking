@@ -20,12 +20,11 @@
       return ad.offer.type === housingType.value;
     });
 
+    window.card.delete();
     window.map.renderAds(sameAdData);
   };
 
-  mapFilters.addEventListener('change', function () {
-    filterPins();
-  });
+  mapFilters.addEventListener('change', window.debounce.use(filterPins));
 
   window.filter = {
     successHandler: successHandler

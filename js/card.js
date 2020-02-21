@@ -105,6 +105,6 @@
 
   window.card = {
     show: showCard,
-    deleteCard: deleteCard
+    delete: deleteCard
   };
 })();
