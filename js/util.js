@@ -1,24 +1,29 @@
 'use strict';
 
 (function () {
-  var ENTER_KEY = 'Enter';
-  var ESCAPE_KEY = 'Escape';
-  var LEFT_MOUSE_BUTTON = 1;
+  var Key = {
+    ENTER: 'Enter',
+    ESCAPE: 'Escape'
+  };
+
+  var Mouse = {
+    LEFT_BUTTON: 1
+  };
 
   var isEnterEvent = function (evt, action) {
-    if (evt.key === ENTER_KEY) {
+    if (evt.key === Key.ENTER) {
       action();
     }
   };
 
   var isEscapeEvent = function (evt, action) {
-    if (evt.key === ESCAPE_KEY) {
+    if (evt.key === Key.ESCAPE) {
       action();
     }
   };
 
   var isMouseEvent = function (evt, action) {
-    if (evt.which === LEFT_MOUSE_BUTTON) {
+    if (evt.which === Mouse.LEFT_BUTTON) {
       action();
     }
   };
@@ -38,9 +43,13 @@
     var lengthArray = Math.floor(Math.random() * arr.length);
     var newArray = [];
 
-    for (var i = 0; i < lengthArray; i++) {
-      newArray.push(arr[i]);
-    }
+    lengthArray.forEach(function (item) {
+      newArray.push(arr[item]);
+    });
+
+    // for (var i = 0; i < lengthArray; i++) {
+    // newArray.push(arr[i]);
+    // }
 
     return newArray;
   };
