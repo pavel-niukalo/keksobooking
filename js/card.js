@@ -27,12 +27,6 @@
       featureItem.classList.add('popup__feature--' + item);
       element.appendChild(featureItem);
     });
-    // for (var i = 0; i < array.length; i++) {
-    //   var featureItem = document.createElement('li');
-    //   featureItem.classList.add('popup__feature');
-    //   featureItem.classList.add('popup__feature--' + array[i]);
-    //   element.appendChild(featureItem);
-    // }
   };
 
   // Вставка фотографий
@@ -44,11 +38,6 @@
       adPhoto.src = item;
       element.appendChild(adPhoto);
     });
-    // for (var j = 0; j < array.length; j++) {
-    //   var adPhoto = imgTemplate.cloneNode(true);
-    //   adPhoto.src = array[j];
-    //   element.appendChild(adPhoto);
-    // }
   };
 
   // Создание объявления

@@ -14,9 +14,6 @@
     collection.forEach(function (item) {
       item.disabled = value;
     });
-    // for (var i = 0; i < collection.length; i++) {
-    //   collection[i].disabled = value;
-    // }
   };
 
   setDisabled(filtersFormFieldset, true);
@@ -30,9 +27,6 @@
     activeMapPins.forEach(function (item) {
       item.remove();
     });
-    // for (var i = 0; i < activeMapPins.length; i++) {
-    //   activeMapPins[i].remove();
-    // }
   };
 
   // Создание нужного количества меток
