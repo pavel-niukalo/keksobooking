@@ -811,10 +811,24 @@ fieldset {
   margin-bottom: 10px;
 
   width: 70px;
-  height: 70px;
+  min-height: 70px;
 
   background-color: #e4e4de;
   border-radius: 5px;
+}
+
+.ad-form__photo--load-file {
+  display: flex;
+  flex-wrap: wrap;
+
+  width: 300px;
+}
+
+.house-photo {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  width: 70px;
+  height: 70px;
 }
 
 .ad-form__element--submit {
