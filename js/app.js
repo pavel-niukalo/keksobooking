@@ -17,6 +17,7 @@
     window.card.delete();
     adForm.reset();
     mapFilters.reset();
+    window.fileReaderImage.clear();
     updateCoordinates();
   };
 
