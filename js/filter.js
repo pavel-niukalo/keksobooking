@@ -7,13 +7,21 @@
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingGuests = mapFilters.querySelector('#housing-guests');
   var housingFeatures = mapFilters.querySelector('#housing-features');
+  var filtersFormFieldset = document.querySelectorAll('.map__filters fieldset');
+  var filtersFormSelect = document.querySelectorAll('.map__filters select');
   var defaultValue = 'any';
   var adData = [];
+
+  window.util.setDisabled(filtersFormFieldset, true);
+  window.util.setDisabled(filtersFormSelect, true);
 
   var successHandler = function (data) {
     adData = data;
 
     window.map.renderAds(data);
+
+    window.util.setDisabled(filtersFormFieldset, false);
+    window.util.setDisabled(filtersFormSelect, false);
   };
 
   var filterPins = function () {

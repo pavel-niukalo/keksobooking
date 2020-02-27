@@ -57,7 +57,7 @@
 
     cardElement.querySelector('.popup__close')
     .addEventListener('click', function () {
-      closeCard();
+      deleteCard();
     });
 
     document.addEventListener('keydown', onCardEscPress);
@@ -65,30 +65,26 @@
     return cardElement;
   };
 
-  var mapFilters = map.querySelector('.map__filters-container');
-
-  // Проверка открытого объявления
-  var deleteCard = function () {
-    var activeCard = map.querySelector('.map__card');
-
-    if (activeCard) {
-      activeCard.remove();
-    }
-  };
-
   // Показ объявления
   var showCard = function (ad) {
+    var mapFilters = map.querySelector('.map__filters-container');
+
     deleteCard();
     mapFilters.insertAdjacentElement('beforebegin', renderCard(ad));
   };
 
   // Взаимодействие с карточкой
   var onCardEscPress = function (evt) {
-    window.util.isEscapeEvent(evt, closeCard);
+    window.util.isEscapeEvent(evt, deleteCard);
   };
 
-  var closeCard = function () {
-    map.querySelector('.map__card').remove();
+  var deleteCard = function () {
+    var activeCard = map.querySelector('.map__card');
+
+    if (activeCard) {
+      activeCard.remove();
+    }
+
     document.removeEventListener('keydown', onCardEscPress);
   };
 

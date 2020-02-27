@@ -13,14 +13,7 @@
   var adFormSubmit = adForm.querySelector('.ad-form__submit');
   var adFormReset = adForm.querySelector('.ad-form__reset');
 
-  // Добавление disabled форме
-  var setDisabled = function (collection, value) {
-    collection.forEach(function (item) {
-      item.disabled = value;
-    });
-  };
-
-  setDisabled(adFormFieldset, true);
+  window.util.setDisabled(adFormFieldset, true);
 
   // Заполнение поля адреса
   var setAddress = function (coords) {
@@ -33,14 +26,14 @@
   var enableActiveState = function () {
     adForm.classList.remove('ad-form--disabled');
 
-    setDisabled(adFormFieldset, false);
+    window.util.setDisabled(adFormFieldset, false);
   };
 
   // Перевод в неактивное состояние
   var enableInactiveState = function () {
     adForm.classList.add('ad-form--disabled');
 
-    setDisabled(adFormFieldset, true);
+    window.util.setDisabled(adFormFieldset, true);
   };
 
   // Валидация комнат и гостей
@@ -89,6 +82,10 @@
 
   // Валидация формы
   numberRooms.addEventListener('change', function () {
+    checkNumberOfGuestsAndRooms();
+  });
+
+  numberGuests.addEventListener('change', function () {
     checkNumberOfGuestsAndRooms();
   });
 
