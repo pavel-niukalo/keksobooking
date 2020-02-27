@@ -87,7 +87,6 @@
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      window.app.updateCoordinates();
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -104,6 +103,8 @@
 
       mapPinMain.style.top = getLimitY(top) + 'px';
       mapPinMain.style.left = getLimitX(left) + 'px';
+
+      window.app.updateCoordinates();
     };
 
     var onMouseUp = function (upEvt) {

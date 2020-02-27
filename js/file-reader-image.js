@@ -40,7 +40,6 @@
 
       reader.readAsDataURL(file);
     }
-
   };
 
   var verifyFiles = function (file, onError) {

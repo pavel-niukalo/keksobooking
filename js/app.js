@@ -12,6 +12,7 @@
 
   var deactivate = function () {
     window.map.enableInactiveState();
+    window.map.deletePins();
     window.form.enableInactiveState();
     window.pinMain.setDefoltCoordinates();
     window.card.delete();
