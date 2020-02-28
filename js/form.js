@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  var typeMinPriceMap = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
   var adressInput = adForm.querySelector('input[name="address"]');
@@ -54,21 +61,10 @@
 
   // Установка минимальной цены
   var setMinPrice = function () {
-    var selectedType = typeFlat.value;
-    var value;
+    var selectedValue = typeMinPriceMap[typeFlat.value];
 
-    if (selectedType === 'bungalo') {
-      value = 0;
-    } else if (selectedType === 'flat') {
-      value = 1000;
-    } else if (selectedType === 'house') {
-      value = 5000;
-    } else {
-      value = 10000;
-    }
-
-    pricePerNight.setAttribute('min', value);
-    pricePerNight.setAttribute('placeholder', value);
+    pricePerNight.setAttribute('min', selectedValue);
+    pricePerNight.setAttribute('placeholder', selectedValue);
   };
 
   // Синхронизация времени заезда и выезда

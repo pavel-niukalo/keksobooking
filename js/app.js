@@ -14,7 +14,7 @@
     window.map.enableInactiveState();
     window.map.deletePins();
     window.form.enableInactiveState();
-    window.pinMain.setDefoltCoordinates();
+    window.pinMain.setDefaultCoordinates();
     window.card.delete();
     adForm.reset();
     mapFilters.reset();

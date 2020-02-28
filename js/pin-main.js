@@ -39,7 +39,7 @@
   };
 
   // Установка координат по-умолчанию
-  var setDefoltCoordinates = function () {
+  var setDefaultCoordinates = function () {
     mapPinMain.style.left = defoltX;
     mapPinMain.style.top = defoltY;
   };
@@ -125,6 +125,6 @@
 
   window.pinMain = {
     getCoordinates: getCoordinates,
-    setDefoltCoordinates: setDefoltCoordinates
+    setDefaultCoordinates: setDefaultCoordinates
   };
 })();
