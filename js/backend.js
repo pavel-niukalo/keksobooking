@@ -2,8 +2,8 @@
 
 (function () {
   var Url = {
-    LOAD: 'https://js.dump.academy/keksobooking/data',
-    SAVE: 'https://js.dump.academy/keksobooking'
+    LOAD: 'https://javascript.pages.academy/keksobooking/data',
+    SAVE: 'https://javascript.pages.academy/keksobooking'
   };
   var Server = {
     TIME: 10000,
