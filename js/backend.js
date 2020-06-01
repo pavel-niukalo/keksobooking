@@ -13,6 +13,7 @@
   var createXhr = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
+    xhr.timeout = Server.TIME;
 
     xhr.addEventListener('load', function () {
       if (xhr.status === Server.STATUS_SUCCESS) {
@@ -28,8 +29,6 @@
     xhr.addEventListener('timeout', function () {
       onError('Превышено время ожидания. Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-
-    xhr.timeout = Server.TIME;
 
     return xhr;
   };
