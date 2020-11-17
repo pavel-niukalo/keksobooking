@@ -1,4 +1,4 @@
-# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
+# Личный проект «Кексобукинг» [![Build Status](https://travis-ci.com/PavelNyukalo/keksobooking.svg?branch=master)](https://travis-ci.com/PavelNyukalo/keksobooking)
 
 * Студент: [Павел Нюкало](https://up.htmlacademy.ru/javascript/19/user/869225).
 * Наставник: [Дмитрий Рябинин](https://up.htmlacademy.ru/javascript/19/user/63289).
