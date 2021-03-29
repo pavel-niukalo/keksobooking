@@ -3,14 +3,21 @@
 * Студент: [Павел Нюкало](https://up.htmlacademy.ru/javascript/19/user/869225).
 * Наставник: [Дмитрий Рябинин](https://up.htmlacademy.ru/javascript/19/user/63289).
 
-#### Обучение
+# О проекте
+Сервис размещения объявлений об аренде недвижимости в Токио. Пользователи делятся информацией о своём объекте недвижимости, размещают фотографии, указывают адрес, перемещая метку по карте города. Кроме этого, можно посмотреть на объявления, размещённые другими пользователями.
 
-<a href="https://htmlacademy.ru/intensive/javascript"><img align="left" width="50" height="50" alt="HTML Academy" src="https://up.htmlacademy.ru/static/img/intensive/javascript/logo-for-github-2.png"></a>
+# Используемые технологии
+* Готовая разметка HTML
+* JavaScript ES5
+
+Логика работы приложения построена на чистом JavaScript.
+При помощи объекта XMLHttpRequest происходит обмен данных с сервером без перезагрузки страницы.
+Перемещение метки по карте реализовано на чистом JavaScript.
+Загрузка фотографий реализована при помощи объекта FileReader.
+
+# Обучение
 
 Репозиторий создан для обучения на интенсивном онлайн‑курсе «[Профессиональный JavaScript](https://htmlacademy.ru/intensive/javascript)», уровень 1 от [HTML Academy](https://htmlacademy.ru).
-
-[travis-image]: https://travis-ci.com/htmlacademy-javascript/869225-keksobooking-19.svg?branch=master
-[travis-url]: https://travis-ci.com/htmlacademy-javascript/869225-keksobooking-19
 
 Программа обучения
 1. Знакомство с JS
